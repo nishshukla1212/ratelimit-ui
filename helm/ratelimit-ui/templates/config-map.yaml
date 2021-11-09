@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "ratelimit-ui-config-{{ .Release.Name}}"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: "ratelimit-ui"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+data:
+  PORT: "80"
+  APP_VERSION: "{{ .Chart.Version }}"
+  UI_ROUTE: "{{ .Values.ui_route }}"
+  CONSOLE_API_URL: "http://{{ .Values.hbapi_proxy.host }}-{{ .Release.Name }}/v1.18"
+  IBAPI_URL: "http://{{ .Values.ibapi_proxy.host }}-{{ .Release.Name }}"
+  CORE_UI_SERVICE_URL: "http://{{ .Values.core_ui_service.host }}-{{ .Release.Name }}"
+  CDN_URL: "{{ .Values.global.asset_base_url }}"
+  GLOBAL_UI_COOKIE_SECRET: "{{ .Values.global.ui_cookie_secret }}"

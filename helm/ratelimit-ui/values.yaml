@@ -1,0 +1,19 @@
+# tag: 1.2.0 # required
+service:
+  externalPort: 80
+  internalPort: 80
+
+hbapi_proxy:
+  host: hbapi-proxy
+
+ibapi_proxy:
+  host: ibapi-proxy
+
+core_ui_service:
+  host: core-ui-service
+
+ui_route: ratelimit-ui
+
+request_tracing_collector:
+  host: request-tracing-collector
+  port: 14267

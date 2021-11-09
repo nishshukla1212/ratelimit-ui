@@ -1,0 +1,68 @@
+#######################################################################################################
+# This file was generated using:
+# bash <( curl -s https://artifactory.prod.adnxs.net:443/artifactory/filestore--generic--nym2/spinnaker/golden-pipeline/generate_golden_vars.sh )
+# Please refer to https://stash.corp.appnexus.com/projects/SPINNAKER/repos/resources_spinnaker-golden-pipeline/browse/GETTINGSTARTED.md for more details
+#######################################################################################################
+version: v1
+kind: Kubernetes
+metadata:
+  name: ratelimit-ui
+spec:
+  helm_chart: ratelimit-ui
+  deploy_pre_prod:
+    require_approval: true
+    clusters:
+    - name: qa01nym2
+      values_files:
+      - https://artifactory.prod.adnxs.net/artifactory/kfc/global/qa01nym2-rc.yaml
+    namespace: web-services-platform
+    values_files:
+    - ankh/resource-profiles/constrained.yaml
+    - ankh/values/dev.yaml
+  #######################################################################################################
+  # deploy_staging:
+  # * update values_files with paths in the Helm chart containing value overrides, the last file in the
+  #   list takes precedence if overlapping values are found.
+  # * update clusters to add/remove clusters to deploy to, the list of available clusters for a stage is
+  #   available in https://stash.corp.appnexus.com/projects/SPINNAKER/repos/resources_spinnaker-golden-pipeline/browse/docs/REFERENCE.md
+  #######################################################################################################
+  deploy_staging:
+    require_approval: true
+    clusters:
+    - name: kube02lax1
+      values_files:
+      - https://artifactory.prod.adnxs.net/artifactory/kfc/global/kube02lax1-staging.yaml
+    - name: kube02nym2
+      values_files:
+      - https://artifactory.prod.adnxs.net/artifactory/kfc/global/kube02nym2-staging.yaml
+    - name: kube02ams1
+      values_files:
+      - https://artifactory.prod.adnxs.net/artifactory/kfc/global/kube02ams1-staging.yaml
+    namespace: web-services-platform
+    release: staging
+    values_files:
+    - ankh/resource-profiles/natural.yaml
+    - ankh/values/production.yaml
+  #######################################################################################################
+  # deploy_production:
+  # * update values_files with paths in the Helm chart containing value overrides, the last file in the
+  #   list takes precedence if overlapping values are found.
+  # * update clusters to add/remove clusters to deploy to, the list of available clusters for a stage is
+  #   available in https://stash.corp.appnexus.com/projects/SPINNAKER/repos/resources_spinnaker-golden-pipeline/browse/docs/REFERENCE.md
+  #######################################################################################################
+  deploy_production:
+    require_approval: true
+    clusters:
+    - name: kube02lax1
+      values_files:
+      - https://artifactory.prod.adnxs.net/artifactory/kfc/global/kube02lax1-production.yaml
+    - name: kube02nym2
+      values_files:
+      - https://artifactory.prod.adnxs.net/artifactory/kfc/global/kube02nym2-production.yaml
+    - name: kube02ams1
+      values_files:
+      - https://artifactory.prod.adnxs.net/artifactory/kfc/global/kube02ams1-production.yaml
+    namespace: web-services-platform
+    values_files:
+    - ankh/resource-profiles/natural.yaml
+    - ankh/values/production.yaml

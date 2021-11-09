@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  annotations:
+    getambassador.io/config: |
+{{- tpl (.Files.Get "routes/mapping.yaml") . | nindent 6 }}
+  labels:
+    app: "ratelimit-ui"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+  name: ratelimit-ui-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - name: http
+    port: {{ .Values.service.externalPort }}
+    protocol: TCP
+    targetPort: {{ .Values.service.internalPort }}
+  selector:
+    app: "ratelimit-ui"
+    release: {{ .Release.Name }}
+  sessionAffinity: None
+  type: ClusterIP

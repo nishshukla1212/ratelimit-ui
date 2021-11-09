@@ -1,0 +1,32 @@
+# The namespace that this chart should be applied to. This is a default value
+# for convenience, and may be overriden when using "ankh -n/--namespace ...",
+# though in practice this is usually not necessary.
+# To use _no namespace_, set this to the empty string. This is uncommon.
+namespace: web-services-platform
+
+# The name of the image that corresponds to the "primary" container for this
+# chart. The primary container is almost always the one associated with the
+# "application". We set this to know which container the tagKey is associated
+# with, and to differentiate that container from any sidecar containers.
+tagImage: ratelimit-ui
+
+# The name of the helm variable that corresponds to the primary container\'s "tag"
+# This configuration enables behavior that requires a tag value to be passed as
+# "--tag ..." or as "--set $tagKey=...". This makes sense for most use cases.
+tagKey: tag
+
+# For "get" etc operations, consider these labels as wildcards and show them as
+# columns where appropriate instead of using them as label selectors.
+#
+# Why? When a user runs "ankh ... get/logs/pods/exec" etc operations over a chart
+# they really want to match objects and pods regardless of their "tag" or "chart"
+# labels. Really, the user wants to discover and see these values instead.
+wildCardLabels:
+- tag
+- chart
+
+config:
+  type: directory
+  paths:
+    resource-profiles: 'ankh/resource-profiles'
+    values: 'ankh/values'

@@ -1,0 +1,57 @@
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: ratelimit-ui-ratelimit-ui-mapping-{{ .Release.Name }}
+  namespace: '{{ .Release.Namespace }}'
+  labels:
+    release: '{{ .Release.Name }}'
+    app: ratelimit-ui
+spec:
+  headers:
+    product: internal
+  ambassador_id: ambassador-{{ .Release.Name }}
+  prefix: /ratelimit-ui$
+  prefix_regex: true
+  rewrite: ""
+  service: ratelimit-ui-{{ .Release.Name }}.web-services-platform
+  timeout_ms: 60000
+  bypass_auth: true
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: ratelimit-ui-ratelimit-ui-slash-static-slash-mapping-{{ .Release.Name }}
+  namespace: '{{ .Release.Namespace }}'
+  labels:
+    release: '{{ .Release.Name }}'
+    app: ratelimit-ui
+spec:
+  headers:
+    product: internal
+  ambassador_id: ambassador-{{ .Release.Name }}
+  prefix: /ratelimit-ui/static/
+  prefix_regex: false
+  rewrite: ""
+  service: ratelimit-ui-{{ .Release.Name }}.web-services-platform
+  timeout_ms: 60000
+  bypass_auth: true
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: ratelimit-ui-ratelimit-ui-slash-mapping-{{ .Release.Name }}
+  namespace: '{{ .Release.Namespace }}'
+  labels:
+    release: '{{ .Release.Name }}'
+    app: ratelimit-ui
+spec:
+  headers:
+    product: internal
+  ambassador_id: ambassador-{{ .Release.Name }}
+  prefix: /ratelimit-ui/
+  prefix_regex: false
+  rewrite: ""
+  service: ratelimit-ui-{{ .Release.Name }}.web-services-platform
+  timeout_ms: 60000
+  bypass_auth: true

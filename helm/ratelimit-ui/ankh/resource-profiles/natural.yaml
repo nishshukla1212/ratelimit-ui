@@ -1,0 +1,9 @@
+ratelimit_ui:
+  resources:
+    replicas: 2
+    limits:
+      cpu: 1
+      memory: 512Mi
+    requests:
+      cpu: 0.1
+      memory: 512Mi
